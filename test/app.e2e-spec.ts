@@ -17,8 +17,8 @@ describe('AppController (e2e)', () => {
 
   it('/ (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/auth')
       .expect(200)
-      .expect('Hello World!');
+      .expect('This action returns all auth');
   });
 });
