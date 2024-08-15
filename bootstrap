@@ -1,0 +1,21 @@
+#!/bin/zsh --no-rcs
+
+docker-compose \
+	--project-name dating-app \
+	--file docker/docker-compose.yml \
+	up --detach --remove-orphans
+
+if [ -f $NVM_DIR/nvm.sh ]
+then
+	source $NVM_DIR/nvm.sh
+	nvm install
+	nvm use
+fi
+
+npm install
+
+if [ -f .env ]; then
+  export $(echo $(cat .env | sed 's/#.*//g'| xargs) | envsubst)
+fi
+
+npm run retail:migrate
