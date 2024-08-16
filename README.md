@@ -30,6 +30,29 @@ Dating-app-api is backend service powered by [Nest](https://github.com/nestjs/ne
  - NodeJS
  - Docker
 
+## Structure Project
+
+Structure folder
+```js
++--dist //Source build
++--docker //docker source and config
++--migrations //database migration config
++--src
+|  +--base //Global & abstract class
+|  |  +--auth //auth strategy
+|  |  +--use-cases //abstract class for use-case
+|  +--module //application module and feature
+|  |  +--auth //Auth module
+|  |  |  +--controller //auth controller
+|  |  |  +--data //auth data 
+|  |  |  +--domain //auth domain
+|  |  +--profile //Profile module
+|  |  |  +--controller //profile controller
+|  |  |  +--data //profile data 
+|  |  |  +--domain //profile domain
++--test //Jest testing
+```
+
 ## Installation
 Install automatically by running the script bellow:
 
@@ -49,8 +72,8 @@ $ docker-compose --project-name dating-app --file docker/docker-compose.yml up -
 ```bash
 $ npm install
 ```
-
- - Run migration database:
+ 
+ - Before run the migration make sure variable env has been setup, then you can run migration database:
  ```bash
 $ npm run dating:migrate
 ```
