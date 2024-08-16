@@ -8,7 +8,7 @@ const dataSource = new DataSource({
   password: process.env.DBPASSWORD,
   database: process.env.DBNAME,
   entities: [
-    'src/modules/**/*.entity.ts',
+    'src/module/**/*.entity.ts',
   ],
   migrationsTableName: 'migrations',
   migrations: ['migrations/files/*.ts'],

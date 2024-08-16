@@ -1,13 +1,27 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { VersioningType } from '@nestjs/common';
+import {
+  DocumentBuilder,
+  SwaggerCustomOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableVersioning({
-    type: VersioningType.URI,
-  });
+  const config = new DocumentBuilder()
+    .setTitle('POS-BE')
+    .setDescription('POS-BE API description')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'JWT',
+    )
+    .build();
+  const options: SwaggerCustomOptions = {
+    swaggerOptions: { docExpansion: 'none' },
+  };
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup(`api/docs`, app, document, options);
 
   await app.listen(process.env.PORT || 3048);
 }

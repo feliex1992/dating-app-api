@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './module/auth/auth.module';
 import { ProfileModule } from './module/profile/profile.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserProfile } from './module/auth/data/entities/user-profile.entity';
+import { JwtStrategy } from './base/auth/jwt.strategy';
 
 @Module({
   imports: [
@@ -14,13 +16,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: process.env.DBUSER,
       password: process.env.DBPASSWORD,
       database: process.env.DBNAME,
-      entities: [],
-      // ssl: process.env.DBURL ? { rejectUnauthorized: false } : false,
+      entities: [UserProfile],
     }),
     AuthModule,
     ProfileModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [JwtStrategy],
 })
 export class AppModule {}
