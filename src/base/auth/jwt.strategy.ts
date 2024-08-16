@@ -2,6 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
+import { Singleton } from '../singleton';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,6 +15,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
+    const singleton = Singleton.getInstance();
+    singleton.set({
+      user: {
+        user_id: payload.user_id,
+        email: payload.email,
+      },
+    });
+
     return {
       user_id: payload.user_id,
       email: payload.email,

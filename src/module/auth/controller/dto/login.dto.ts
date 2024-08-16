@@ -1,9 +1,6 @@
 import { IUserProfile } from '../../domain/interface/user-profile.interface';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsString,
-} from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
 
 export class LoginDto implements IUserProfile {
   @ApiProperty({

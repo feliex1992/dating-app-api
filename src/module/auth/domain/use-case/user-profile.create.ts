@@ -17,17 +17,13 @@ export class UserProfileCreate extends BaseCreateUseCase<IUserProfile> {
   async beforeProcess(): Promise<void> {
     if (
       this.userProfileEntity.retype_password !== this.userProfileEntity.password
-    ) {
-      throw new Error('password and retype password is not match!');
-    }
+    ) throw new Error('password and retype password is not match!');
 
     const userData = await this.authRepository.getOne({
       where: { email: this.userProfileEntity.email },
     });
 
-    if (userData) {
-      throw new Error('email is already registered!');
-    }
+    if (userData) throw new Error('email is already registered!');
 
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(this.userProfileEntity.password, salt);
@@ -37,7 +33,7 @@ export class UserProfileCreate extends BaseCreateUseCase<IUserProfile> {
 
   async getResultSignup(): Promise<IUserProfile> {
     const result = await this.getResult();
-    
+
     if (result.password) delete result.password;
     return result;
   }

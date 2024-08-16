@@ -4,11 +4,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { IUserProfile } from '../../domain/interface/user-profile.interface';
 import { Gender } from 'src/base/constants';
+import { IUserPremium } from 'src/module/profile/domain/interface/user-premium.interface';
+import { UserPremium } from 'src/module/profile/data/entities/user-premium.entity';
 
 @Entity('user_profile')
 export class UserProfile implements IUserProfile {
@@ -46,6 +49,9 @@ export class UserProfile implements IUserProfile {
 
   @Column({ type: 'date', nullable: true })
   date_of_birth?: string;
+
+  @OneToMany(() => UserPremium, (userPremium) => userPremium.user)
+  user_premium?: IUserPremium[];
 
   @CreateDateColumn()
   created_at?: Date;

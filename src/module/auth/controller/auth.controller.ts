@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  BadRequestException,
-} from '@nestjs/common';
+import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { AuthService } from '../domain/auth.service';
 import { SignupDto } from './dto/signup.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -23,7 +14,7 @@ export class AuthController {
   async signup(@Body() signupDto: SignupDto) {
     try {
       await this.authService.signup(signupDto);
-      return "signup success.";
+      return 'signup success.';
     } catch (err) {
       throw new BadRequestException(err.message);
     }

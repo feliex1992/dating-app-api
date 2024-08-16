@@ -8,7 +8,7 @@ export abstract class BaseUpdateUseCase<Entity> extends BaseUseCase<Entity> {
   constructor(
     connection: Connection,
     private dataRepository: BaseDataRepository<Entity>,
-    private entityTarget: EntityTarget<Entity>,
+    public entityTarget: EntityTarget<Entity>,
     private id: string,
     public updatedData: Entity,
   ) {

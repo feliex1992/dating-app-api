@@ -1,4 +1,5 @@
 import { Gender } from 'src/base/constants';
+import { IUserPremium } from 'src/module/profile/domain/interface/user-premium.interface';
 
 export interface IUserProfile {
   user_id?: string;
@@ -11,6 +12,7 @@ export interface IUserProfile {
   place_of_birth?: string;
   date_of_birth?: string;
   address?: string;
+  user_premium?: IUserPremium[],
   created_at?: Date;
   updated_at?: Date;
 }

@@ -8,10 +8,14 @@ import { AuthRepository } from './data/auth.repository';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [ConfigModule.forRoot(), TypeOrmModule.forFeature([UserProfile]), JwtModule.register({
-    secret: process.env.JWT_SECRET,
-    signOptions: { expiresIn: process.env.JWT_EXPIRES },
-  }),],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forFeature([UserProfile]),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: process.env.JWT_EXPIRES },
+    }),
+  ],
   controllers: [AuthController],
   providers: [AuthService, AuthRepository],
 })

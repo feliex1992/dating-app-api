@@ -56,7 +56,7 @@ export class UserLogin extends BaseGetOneUseCase<IUserProfile> {
 
   getResultLogin(): IUserLogin {
     if (this.result.password) delete this.result.password;
-    
+
     return {
       token: this.token,
       user: this.result,
