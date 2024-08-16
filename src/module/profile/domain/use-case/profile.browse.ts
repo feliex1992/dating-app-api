@@ -3,7 +3,6 @@ import { ProfileRepository } from '../../data/profile.repository';
 import { BaseCreateUseCase } from 'src/base/use-cases/process/base-create.use-case';
 import { Connection } from 'typeorm';
 import { UserProfile } from 'src/module/auth/data/entities/user-profile.entity';
-import { PremiumType } from 'src/base/constants';
 
 export class ProfileBrowse extends BaseCreateUseCase<IUserProfile> {
   constructor(
@@ -21,7 +20,7 @@ export class ProfileBrowse extends BaseCreateUseCase<IUserProfile> {
   async process(): Promise<void> {
     this.result = await this.profileRepository.browseProfile(
       this.userProfileEntity.user_id,
-      this.userProfileEntity.user_id
+      this.userProfileEntity.user_id,
     );
   }
 

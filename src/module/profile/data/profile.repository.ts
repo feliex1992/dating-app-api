@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BaseDataRepository } from 'src/base/base-data.repository';
 import { UserProfile } from 'src/module/auth/data/entities/user-profile.entity';
 import { IUserProfile } from 'src/module/auth/domain/interface/user-profile.interface';
-import { EntityTarget, Not, QueryRunner, Repository } from 'typeorm';
+import { EntityTarget, QueryRunner, Repository } from 'typeorm';
 import { IUserActivity } from '../domain/interface/user-activity.interface';
 import { UserActivity } from './entities/user-activity.entity';
 import * as moment from 'moment';
@@ -51,37 +51,61 @@ export class ProfileRepository extends BaseDataRepository<IUserProfile> {
     return userProfileEntity;
   }
 
-  async getActivePackage(userId: String, premiumType: PremiumType): Promise<IUserPremium> {
-    const result = await this.userPremiumRepository.createQueryBuilder('up')
-      .where(`up.user_id = '${userId}' AND up.premium_type = '${premiumType}' AND expired_at >= '${moment().format('YYYY-MM-DD')}'`)
+  async getActivePackage(
+    userId: string,
+    premiumType: PremiumType,
+  ): Promise<IUserPremium> {
+    const result = await this.userPremiumRepository
+      .createQueryBuilder('up')
+      .where(
+        `up.user_id = '${userId}' AND up.premium_type = '${premiumType}' AND expired_at >= '${moment().format('YYYY-MM-DD')}'`,
+      )
       .getOne();
     return result;
   }
 
   async getActivityCount(userId: string): Promise<number> {
-    return await this.userActivityRepository.createQueryBuilder('ua')
-      .where(`ua.user_id = '${userId}' AND ua.created_at >= '${moment().format('YYYY-MM-DD')}'`)
+    return await this.userActivityRepository
+      .createQueryBuilder('ua')
+      .where(
+        `ua.user_id = '${userId}' AND ua.created_at >= '${moment().format('YYYY-MM-DD')}'`,
+      )
       .getCount();
   }
 
-  async browseProfile(userId: string, excludeUserId: string): Promise<IUserProfile> {
-    const userProfile = await this.repository.createQueryBuilder('p')
-      .where(`p.user_id NOT IN ('${userId}', '${excludeUserId}') AND ` + 'p.user_id NOT IN (' + 
-          this.userActivityRepository.createQueryBuilder('ua')
+  async browseProfile(
+    userId: string,
+    excludeUserId: string,
+  ): Promise<IUserProfile> {
+    const userProfile = await this.repository
+      .createQueryBuilder('p')
+      .where(
+        `p.user_id NOT IN ('${userId}', '${excludeUserId}') AND ` +
+          'p.user_id NOT IN (' +
+          this.userActivityRepository
+            .createQueryBuilder('ua')
             .select('ua.visited_user_id')
-            .where(`ua.user_id = '${userId}' AND ua.visited_user_id IS NOT NULL AND ua.created_at >= '${moment().format('YYYY-MM-DD')}'`)
-            .getQuery() + ')')
+            .where(
+              `ua.user_id = '${userId}' AND ua.visited_user_id IS NOT NULL AND ua.created_at >= '${moment().format('YYYY-MM-DD')}'`,
+            )
+            .getQuery() +
+          ')',
+      )
       .orderBy('RANDOM()')
       .limit(1)
       .getOne();
     return userProfile;
   }
 
-  async likeProfile(userId: string, likedUserId: string, queryRunner: QueryRunner): Promise<void> {
+  async likeProfile(
+    userId: string,
+    likedUserId: string,
+    queryRunner: QueryRunner,
+  ): Promise<void> {
     const userLike: IUserLike = {
       user_id: userId,
       user_id_liked: likedUserId,
-    }
+    };
     const newEntityLike = queryRunner.manager.create(UserLike, userLike);
     await queryRunner.manager.save(newEntityLike);
 
@@ -89,18 +113,28 @@ export class ProfileRepository extends BaseDataRepository<IUserProfile> {
       user_id: userId,
       visited_user_id: likedUserId,
       description: `Like profile user: ${likedUserId}`,
-    }
-    const newEntityActivity = queryRunner.manager.create(UserActivity, userActivity);
+    };
+    const newEntityActivity = queryRunner.manager.create(
+      UserActivity,
+      userActivity,
+    );
     await queryRunner.manager.save(newEntityActivity);
   }
 
-  async passProfile(userId: string, passedUserId: string, queryRunner: QueryRunner): Promise<void> {
+  async passProfile(
+    userId: string,
+    passedUserId: string,
+    queryRunner: QueryRunner,
+  ): Promise<void> {
     const userActivity: IUserActivity = {
       user_id: userId,
       visited_user_id: passedUserId,
       description: `Pass profile user: ${passedUserId}`,
-    }
-    const newEntityActivity = queryRunner.manager.create(UserActivity, userActivity);
+    };
+    const newEntityActivity = queryRunner.manager.create(
+      UserActivity,
+      userActivity,
+    );
     await queryRunner.manager.save(newEntityActivity);
   }
 }

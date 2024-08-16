@@ -1,9 +1,9 @@
-import { BaseCreateUseCase } from "src/base/use-cases/process/base-create.use-case";
-import { IUserPremium } from "../interface/user-premium.interface";
-import { Connection, MoreThanOrEqual } from "typeorm";
-import { UserPremiumRepository } from "../../data/user-premium.repository";
-import { UserPremium } from "../../data/entities/user-premium.entity";
-import * as moment from "moment";
+import { BaseCreateUseCase } from 'src/base/use-cases/process/base-create.use-case';
+import { IUserPremium } from '../interface/user-premium.interface';
+import { Connection, MoreThanOrEqual } from 'typeorm';
+import { UserPremiumRepository } from '../../data/user-premium.repository';
+import { UserPremium } from '../../data/entities/user-premium.entity';
+import * as moment from 'moment';
 
 export class UserPremiumCreate extends BaseCreateUseCase<IUserPremium> {
   constructor(
@@ -21,10 +21,11 @@ export class UserPremiumCreate extends BaseCreateUseCase<IUserPremium> {
       where: {
         user_id: this.userId,
         expired_at: MoreThanOrEqual(today),
-        premium_type: this.userPremiumEntity.premium_type
-      }
-    })
-    if (userPremium) throw new Error("The selected premium package is still active!");
+        premium_type: this.userPremiumEntity.premium_type,
+      },
+    });
+    if (userPremium)
+      throw new Error('The selected premium package is still active!');
     this.entity.user_id = this.userId;
   }
 

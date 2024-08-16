@@ -14,7 +14,12 @@ import { UserPremiumRepository } from './data/user-premium.repository';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forFeature([UserProfile, UserPremium, UserActivity, UserLike]),
+    TypeOrmModule.forFeature([
+      UserProfile,
+      UserPremium,
+      UserActivity,
+      UserLike,
+    ]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: process.env.JWT_EXPIRES },

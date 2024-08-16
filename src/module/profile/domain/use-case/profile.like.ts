@@ -18,10 +18,15 @@ export class ProfileLike extends BaseCreateUseCase<IUserProfile> {
   async beforeProcess(): Promise<void> {
     const unlimitedPackage = await this.profileRepository.getActivePackage(
       this.userProfileEntity.user_id,
-      PremiumType.UNLIMITED
+      PremiumType.UNLIMITED,
     );
     if (!unlimitedPackage) {
-      if (await this.profileRepository.getActivityCount(this.userProfileEntity.user_id) >= 10) throw new Error('Your daily credit amount has been used up!')
+      if (
+        (await this.profileRepository.getActivityCount(
+          this.userProfileEntity.user_id,
+        )) >= 10
+      )
+        throw new Error('Your daily credit amount has been used up!');
     }
   }
 
@@ -34,7 +39,10 @@ export class ProfileLike extends BaseCreateUseCase<IUserProfile> {
       this.queryRunner,
     );
 
-    this.result = await this.profileRepository.browseProfile(this.userProfileEntity.user_id, this.likedUserId);
+    this.result = await this.profileRepository.browseProfile(
+      this.userProfileEntity.user_id,
+      this.likedUserId,
+    );
   }
 
   async afterProcess(): Promise<void> {}

@@ -17,7 +17,8 @@ export class UserProfileCreate extends BaseCreateUseCase<IUserProfile> {
   async beforeProcess(): Promise<void> {
     if (
       this.userProfileEntity.retype_password !== this.userProfileEntity.password
-    ) throw new Error('password and retype password is not match!');
+    )
+      throw new Error('password and retype password is not match!');
 
     const userData = await this.authRepository.getOne({
       where: { email: this.userProfileEntity.email },

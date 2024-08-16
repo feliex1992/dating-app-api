@@ -4,14 +4,20 @@ import { Connection, Not } from 'typeorm';
 import { ProfileRepository } from '../../data/profile.repository';
 import { UserProfile } from 'src/module/auth/data/entities/user-profile.entity';
 
-export class ProfileUpdate  extends BaseUpdateUseCase<IUserProfile> {
+export class ProfileUpdate extends BaseUpdateUseCase<IUserProfile> {
   constructor(
     private profileCon: Connection,
     private profileRepository: ProfileRepository,
     private userId: string,
     private userProfileEntity: IUserProfile,
   ) {
-    super(profileCon, profileRepository, UserProfile, userId, userProfileEntity);
+    super(
+      profileCon,
+      profileRepository,
+      UserProfile,
+      userId,
+      userProfileEntity,
+    );
   }
 
   async beforeProcess(): Promise<void> {

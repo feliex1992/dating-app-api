@@ -1,7 +1,7 @@
-import { IUserPremium } from "../../domain/interface/user-premium.interface";
-import { ApiProperty } from "@nestjs/swagger";
-import { PremiumType } from "src/base/constants";
-import { IsDateString, IsEnum, ValidateIf } from "class-validator";
+import { IUserPremium } from '../../domain/interface/user-premium.interface';
+import { ApiProperty } from '@nestjs/swagger';
+import { PremiumType } from 'src/base/constants';
+import { IsDateString, IsEnum } from 'class-validator';
 
 export class BuyPremiumDto implements IUserPremium {
   @ApiProperty({

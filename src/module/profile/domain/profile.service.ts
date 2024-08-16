@@ -23,7 +23,9 @@ export class ProfileService {
     private userPremiumRepository: UserPremiumRepository,
   ) {}
 
-  async updateProfile(updateProfileDto: UpdateProfileDto): Promise<IUserProfile> {
+  async updateProfile(
+    updateProfileDto: UpdateProfileDto,
+  ): Promise<IUserProfile> {
     const singleton = Singleton.getInstance();
     const userId = singleton.getUser().user_id;
 
@@ -62,7 +64,7 @@ export class ProfileService {
       this.profileRepository,
       {
         user_id: userData.user_id,
-        email: userData.email
+        email: userData.email,
       },
     );
     await profileBrowser.execute();
@@ -80,7 +82,7 @@ export class ProfileService {
       liked_user_id,
       {
         user_id: userData.user_id,
-        email: userData.email
+        email: userData.email,
       },
     );
     await profileLike.execute();
@@ -98,7 +100,7 @@ export class ProfileService {
       passed_user_id,
       {
         user_id: userData.user_id,
-        email: userData.email
+        email: userData.email,
       },
     );
     await profilePass.execute();
