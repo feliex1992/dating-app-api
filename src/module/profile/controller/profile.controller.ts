@@ -54,7 +54,7 @@ export class ProfileController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT')
-  @Get('like/:id')
+  @Post('like/:id')
   async likeAccount(@Param('id') liked_user_id: string) {
     try {
       return await this.profileService.likeProfile(liked_user_id);
@@ -65,7 +65,7 @@ export class ProfileController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT')
-  @Get('pass/:id')
+  @Post('pass/:id')
   async passAccount(@Param('id') passed_user_id: string) {
     try {
       return await this.profileService.passProfile(passed_user_id);
